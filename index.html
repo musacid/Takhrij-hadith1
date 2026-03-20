@@ -229,4 +229,76 @@
             
             { type: 'normal', challenge: "Qofka aad lacag ku leedahay xusuusi inuu iska bixiyo, kadib fur! 💸", prize: "Hambalyo! Waxaad heshay <strong>20,000 SL SH!</strong> Waa dhexdhexaad wacan, ciid mubaarak! 🎊" },
             
-            // Sanduuqa 1
+            // Sanduuqa 10aad 
+            { type: 'joke', challenge: "hooyo hal mar madaxa kasoo dhunko kadib fur 🗣️👴", prize: "Masha allah hambalyo adigu xaqalciidkaagi ajar ahaan ayaad u qaadatay oo hoyada ayaad so dhunkatay 💸🙅‍♂️ <br><div class='fursad-text'>Kaftan weeye! Haniyad jabine, sanduuq kale oo nasiibkaaga ah dooro! 🎲</div>" },
+            
+            { type: 'normal', challenge: "qof aad ku tuhunsantay inuu ramadantii kijada biyo ku cabay farta ku fiiq, kadib fur! 👉😂", prize: "Nasiib wacan! Waxaad heshay <strong>10,000 SL SH</strong>. Yaanay kugu yaraanin, niyadda wanaaji! 🌺" },
+            
+            { type: 'normal', challenge: "Isku day inaad suxulkaaga carrabka ku taabato!, kadib fur! 🎤", prize: "Hambalyo! Waxaad heshay <strong>15,000 SL SH</strong>. Ku ciid farxad iyo caafimaad! 🌙" },
+            
+            { type: 'normal', challenge: "Salaan diiran sii qofka kugu xiga ka hor intaanad furin! 🤗", prize: "Nasiib wacan! Waxaad heshay <strong>10,000 SL SH</strong>. Waa inoo ciida dambe iyo nasiib fiican! 😄" }
+        ];
+
+        function createBoard() {
+            const board = document.getElementById('gameBoard');
+            for (let i = 0; i < 13; i++) {
+                let box = document.createElement('div');
+                box.id = 'box-' + i;
+                box.onclick = () => handleBoxClick(i);
+
+                let state = boxStates[i];
+                if (state === 0) {
+                    box.className = 'box';
+                    box.innerHTML = `<strong>Sanduuqa ${i + 1}</strong>`;
+                } else if (state === 1) {
+                    box.className = 'box challenge-state';
+                    box.innerHTML = `${prizesData[i].challenge} <br><div class="small-text">(Taabo mar kale)</div>`;
+                } else if (state === 2) {
+                    box.className = 'box opened';
+                    box.innerHTML = prizesData[i].prize;
+                }
+                
+                board.appendChild(box);
+            }
+            renderHooyo(); 
+        }
+
+        function handleBoxClick(index) {
+            let state = boxStates[index];
+            let boxElem = document.getElementById('box-' + index);
+
+            if (state === 0) {
+                boxElem.innerHTML = `${prizesData[index].challenge} <br><div class="small-text">(Taabo mar kale)</div>`;
+                boxElem.className = 'box challenge-state';
+                boxStates[index] = 1;
+                saveGame(); 
+            } else if (state === 1) {
+                boxElem.innerHTML = prizesData[index].prize;
+                boxElem.className = 'box opened';
+                boxStates[index] = 2;
+                saveGame(); 
+
+                // Rashka oo lagu saleynayo nooca sanduuqa (type) intii index lagu saleyn lahaa
+                if (prizesData[index].type === 'special') {
+                    confetti({
+                        particleCount: 200,
+                        spread: 120,
+                        origin: { y: 0.5 },
+                        colors: ['#ff00ff', '#00ffff', '#ff0000', '#ffff00'] 
+                    });
+                } else if (prizesData[index].type === 'normal') {
+                    confetti({
+                        particleCount: 100,
+                        spread: 80,
+                        origin: { y: 0.6 },
+                        colors: ['#d4af37', '#2c5e3b', '#ffffff'] 
+                    });
+                }
+                // Haddii uu yahay 'joke' wax rash ah loo ridi maayo
+            }
+        }
+
+        createBoard();
+    </script>
+</body>
+</html>
