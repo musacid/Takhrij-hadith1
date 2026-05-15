@@ -1,304 +1,655 @@
 <!DOCTYPE html>
-<html lang="so">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xaqal Ciidka Qoyska - Ciid Mubaarak!</title>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <title>الاختبار التفاعلي - مقرر تخريج الحديث</title>
     <style>
-        * {
-            box-sizing: border-box;
-        }
+        /* إعدادات الخطوط والصفحة العامة */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: radial-gradient(circle at top center, #fffdf8, #f4ecd8);
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627 0l.83.83-1.66 1.66-.83-.83.83-.83zM27.314 0l.83.83-1.66 1.66-.83-.83.83-.83z' fill='%23d4af37' fill-opacity='0.15' fill-rule='evenodd'/%3E%3C/svg%3E");
-            color: #333;
+            font-family: 'Traditional Arabic', 'Amiri', 'Sakkal Majalla', 'Segoe UI', Tahoma, sans-serif;
+            background-color: #e9ecef;
             margin: 0;
-            padding: 15px; 
-            direction: ltr;
+            padding: 20px 10px;
+            color: #000;
+            font-size: 18px;
+            display: flex;
+            justify-content: center;
         }
 
-        .page-wrapper {
-            border: 6px double #d4af37;
-            border-radius: 20px;
-            box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.2), 0 0 15px rgba(212, 175, 55, 0.4);
-            min-height: calc(100vh - 30px); 
-            padding: 40px 20px;
-            text-align: center;
+        /* إعدادات الحاوية (تتكيف مع الكمبيوتر والجوال) */
+        .page-container {
+            background-color: #fff;
+            width: 100%;
+            max-width: 900px;
+            padding: 30px 40px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            box-sizing: border-box;
+            border-radius: 12px;
             position: relative;
-            background: rgba(255, 255, 255, 0.3); 
+            padding-bottom: 90px;
+            min-height: 50vh;
         }
 
-        .page-wrapper::before, .page-wrapper::after {
-            content: "✨";
-            position: absolute;
-            top: 15px;
-            font-size: 24px;
-            color: #d4af37;
+        /* شاشة البداية (الرسوم والاستغفار) */
+        .start-screen {
+            text-align: center;
+            padding: 20px 10px;
+            animation: fadeIn 0.8s ease-in-out;
         }
-        .page-wrapper::before { left: 20px; }
-        .page-wrapper::after { right: 20px; }
-
-        h1 {
-            color: #2c5e3b;
-            font-size: 2.8em;
-            margin-top: 0;
+        
+        .start-screen h1 {
+            color: #1e6b47;
+            font-size: 36px;
             margin-bottom: 5px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-            user-select: none; 
+            margin-top: 0;
         }
-        .subtitle {
-            color: #b8860b;
-            font-size: 1.3em;
-            margin-bottom: 30px;
-            font-weight: bold;
-        }
-        .mother-section {
-            background: linear-gradient(135deg, #d4af37, #f9f1d8);
-            border: 3px solid #b8962e;
-            border-radius: 15px;
+
+        .alert-box {
+            background-color: #fff3cd;
+            border: 2px solid #ffeeba;
+            border-radius: 10px;
             padding: 20px;
-            margin: 0 auto 40px auto;
-            max-width: 600px;
-            cursor: pointer;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-            transition: transform 0.2s;
+            margin: 30px auto;
+            max-width: 700px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
         }
-        .mother-section:hover {
-            transform: scale(1.03);
+
+        .alert-box h2 {
+            color: #856404;
+            font-size: 28px;
+            margin-top: 0;
         }
-        .mother-text {
-            font-size: 1.6em;
-            font-weight: bold;
-            color: #2c5e3b;
+
+        .alert-box p {
+            color: #555;
+            font-size: 22px;
+            line-height: 1.6;
+            margin-bottom: 10px;
         }
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding-bottom: 20px;
-        }
-        .box {
-            background: linear-gradient(135deg, #2c5e3b, #1e4028);
-            color: white;
+
+        .payment-box {
+            background-color: #f4fdf8;
+            border: 3px dashed #28a745;
             border-radius: 12px;
             padding: 30px 20px;
-            font-size: 1.2em;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            transition: all 0.3s ease-in-out;
+            margin: 25px auto;
+            max-width: 650px;
+            min-height: 200px;
             display: flex;
-            align-items: center;
-            justify-content: center;
             flex-direction: column;
-            min-height: 120px;
-            border: 2px solid #1e4028;
+            justify-content: center;
+            align-items: center;
         }
-        .box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+
+        /* زر كشف المفاجأة (الذهبي) */
+        .reveal-btn {
+            background-color: #f8c146;
+            color: #333;
+            border: 2px solid #e0a800;
+            padding: 12px 25px;
+            font-size: 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(224, 168, 0, 0.3);
         }
-        .box.challenge-state {
-            background: linear-gradient(135deg, #e67e22, #d35400);
-            border: 2px solid #b84a00;
+
+        .reveal-btn:hover {
+            background-color: #e0a800;
             transform: scale(1.05);
-            box-shadow: 0 8px 16px rgba(230, 126, 34, 0.4);
         }
-        .box.challenge-state:hover {
-            transform: scale(1.05);
+
+        .payment-text {
+            font-size: 34px;
+            font-weight: bold;
+            color: #1e6b47;
+            margin: 15px 0;
+            line-height: 1.5;
         }
-        .box.opened {
-            background: #e0e0e0;
-            color: #444;
-            cursor: default;
-            box-shadow: inset 0 3px 6px rgba(0,0,0,0.1);
-            border: 2px solid #ccc;
-            transform: none;
-        }
-        .box.opened:hover {
-            transform: none;
-            box-shadow: inset 0 3px 6px rgba(0,0,0,0.1);
-        }
-        .small-text {
-            font-size: 0.8em;
-            color: #ffd700;
-            margin-top: 10px;
-        }
-        .challenge-state .small-text {
+
+        .start-btn {
+            padding: 15px 40px;
+            font-size: 24px;
+            background-color: #1e6b47;
             color: #fff;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: inherit;
             font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(30, 107, 71, 0.4);
+            margin-top: 20px;
         }
-        .opened .small-text {
-            color: #666;
+
+        .start-btn:hover {
+            background-color: #144e33;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(30, 107, 71, 0.6);
         }
-        .fursad-text {
-            color: #d35400;
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in-fast {
+            animation: fadeInFast 0.6s ease-in-out;
+        }
+        
+        @keyframes fadeInFast {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* الترويسة */
+        .header-section {
+            border: 2px solid #1e6b47;
+            padding: 20px;
+            margin-bottom: 25px;
+            text-align: center;
             font-weight: bold;
-            font-size: 0.9em;
-            margin-top: 15px;
+            border-radius: 8px;
+            background-color: #f4fdf8;
+            position: relative;
+            overflow: hidden;
         }
+
+        /* شريط التقدم */
+        .progress-bar-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background-color: #e9ecef;
+        }
+        .progress-bar {
+            height: 100%;
+            background-color: #1e6b47;
+            width: 0%;
+            transition: width 0.4s ease-in-out;
+        }
+
+        .exam-title {
+            font-size: 28px;
+            border-bottom: 2px solid #1e6b47;
+            padding-bottom: 12px;
+            margin-bottom: 12px;
+            color: #1e6b47;
+        }
+
+        .student-info {
+            font-size: 19px;
+            color: #444;
+        }
+
+        /* إعدادات الجداول للأسئلة */
+        table.question-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        table.question-table th, table.question-table td {
+            border: 1px solid #ced4da;
+            padding: 14px;
+            vertical-align: middle;
+        }
+        table.question-table th {
+            background-color: #f8f9fa;
+            text-align: right;
+            font-weight: bold;
+            font-size: 22px;
+            color: #212529;
+            border-bottom: 2px solid #dee2e6;
+        }
+        
+        /* الخلايا التفاعلية للخيارات */
+        table.question-table td {
+            font-size: 19px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            background-color: #fff;
+            user-select: none;
+        }
+        
+        table.question-table td.option-cell:hover:not(.disabled) {
+            background-color: #e9ecef;
+        }
+
+        /* الإجابة الصحيحة والخاطئة */
+        .correct-ans {
+            background-color: #d4edda !important;
+            color: #155724 !important;
+            font-weight: bold;
+            border: 2px solid #28a745 !important;
+        }
+        .wrong-ans {
+            background-color: #f8d7da !important;
+            color: #721c24 !important;
+            border: 2px solid #dc3545 !important;
+            text-decoration: line-through;
+            opacity: 0.8;
+        }
+        
+        .disabled {
+            cursor: not-allowed !important;
+        }
+
+        /* تنسيق الأعمدة للخيارات */
+        .col-2 { width: 50%; }
+        .col-4 { width: 25%; }
+
+        /* شريط التحكم السفلي */
+        .bottom-bar {
+            position: absolute;
+            bottom: 30px;
+            left: 40px;
+            right: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 2px dashed #ccc;
+            padding-top: 15px;
+        }
+
+        .btn-main {
+            padding: 12px 30px;
+            font-size: 20px;
+            background-color: #1e6b47;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            transition: 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .btn-main:hover { background-color: #144e33; transform: translateY(-2px); }
+
+        .page-indicator {
+            font-size: 20px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        /* شاشة النتيجة النهائية */
+        .result-screen {
+            text-align: center;
+            padding: 40px 10px;
+        }
+        .result-score {
+            font-size: 60px;
+            font-weight: bold;
+            color: #1e6b47;
+            margin: 20px auto;
+            padding: 30px;
+            border: 6px solid #1e6b47;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 160px;
+            height: 160px;
+            background-color: #f4fdf8;
+        }
+        .result-message {
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .hidden { display: none !important; }
+
+        /* دعم الهواتف المحمولة (الجوالات) */
+        @media (max-width: 768px) {
+            .page-container {
+                padding: 15px 15px 80px 15px;
+            }
+            .bottom-bar {
+                left: 15px;
+                right: 15px;
+                bottom: 20px;
+            }
+            .exam-title {
+                font-size: 22px;
+            }
+            .student-info, .page-indicator {
+                font-size: 16px;
+            }
+            .btn-main {
+                padding: 10px 20px;
+                font-size: 18px;
+            }
+            table.question-table th {
+                font-size: 19px;
+            }
+            table.question-table td {
+                font-size: 17px;
+            }
+            .start-screen h1 { font-size: 28px; }
+            .payment-text { font-size: 24px; }
+            .start-btn { font-size: 20px; padding: 12px 25px; }
+            .reveal-btn { font-size: 18px; padding: 10px 20px; }
+            
+            table.question-table tr {
+                display: flex;
+                flex-direction: column;
+            }
+            table.question-table td, table.question-table th {
+                width: 100% !important;
+                display: block;
+                box-sizing: border-box;
+            }
+        }
+
     </style>
 </head>
 <body>
 
-    <div class="page-wrapper">
-        <h1 onclick="resetGame()">🌙 CIID MUBAARAK! ✨</h1>
-        <div class="subtitle">Soo dhawaada, maanta waa maalintii farxadda iyo xaqal ciidka, qof walba nasiib wacan! 🎈</div>
+    <div class="page-container">
+        
+        <!-- شاشة المفاجأة والترحيب -->
+        <div id="start-screen" class="start-screen">
+            <h1 style="color: #333;">استعن بالله ولا تعجز 🌟</h1>
+            
+            <div class="alert-box">
+                <h2>تنبيه هام جداً 🚨</h2>
+                <p>
+                    مرحباً بك يا طالب العلم.. هذا الاختبار الشامل لمقرر التخريج <b>ليس مجانياً!</b><br>
+                    بل يتطلب منك دفع <b>"رسوم الدخول"</b> قبل أن يُسمح لك بالبدء.
+                </p>
+            </div>
 
-        <div class="mother-section" id="hooyoBox" onclick="openHooyo()">
-            <div class="mother-text" id="hooyoContent">Hooyo Macaan ❤️ (Halkan taabo)</div>
+            <div class="payment-box">
+                
+                <!-- الواجهة التمهيدية للرسوم -->
+                <div id="payment-intro">
+                    <p style="font-size: 22px; color: #444; font-weight: bold; line-height: 1.6; margin-top: 0;">
+                        طريقة الدفع ليست معقدة، ولا تتطلب منك بطاقة بنكية، ولا تحويلاً، ولا إيداعاً، ولا كفيلاً، ولا ضماناً! بل هي طريقة سهلة وميسرة جداً.
+                    </p>
+                    <button class="reveal-btn" onclick="revealPayment()">إذا كنت جاهزاً للدفع، افتح هنا 🔓</button>
+                </div>
+
+                <!-- شاشة الدفع الحقيقية (المفاجأة) - مخفية في البداية -->
+                <div id="payment-secret" class="hidden fade-in-fast">
+                    <h3 style="color: #444; font-size: 24px; margin-top: 0;">رسوم الدخول بسيطة، ولكن أجرها عظيم:</h3>
+                    <div class="payment-text">
+                        "أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ وَأَتُوبُ إِلَيْهِ"
+                    </div>
+                    <p style="font-size: 20px; color: #555; margin-bottom: 5px;">
+                        قلها من قلبك الخالص؛ لتكسب الأجر.
+                    </p>
+                    <p style="font-size: 20px; color: #555; margin-bottom: 15px;">
+                        ثم توكل على الله وابدأ.
+                    </p>
+                    <button class="start-btn" onclick="startExam()">توكلت على الله.. ابدأ الاختبار 🚀</button>
+                </div>
+
+            </div>
         </div>
 
-        <hr style="border: 1px dashed #d4af37; max-width: 800px; margin-bottom: 30px;">
-
-        <div class="grid-container" id="gameBoard">
+        <!-- الترويسة (مخفية بالبداية) -->
+        <div class="header-section hidden" id="header">
+            <div class="exam-title">اختبار إلكتروني تفاعلي - مقرر تخريج الحديث</div>
+            <div class="student-info">أجب عن جميع الأسئلة للانتقال للصفحة التالية</div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar"></div>
             </div>
+        </div>
+
+        <!-- حاوية الأسئلة (مخفية بالبداية) -->
+        <div id="questions-container" class="hidden">
+            <!-- سيتم توليد الأسئلة هنا عبر الجافاسكربت -->
+        </div>
+
+        <!-- شريط التحكم السفلي (مخفي بالبداية) -->
+        <div class="bottom-bar hidden" id="bottom-bar">
+            <span class="page-indicator" id="page-indicator">الصفحة 1 من 10</span>
+            <button class="btn-main" id="next-btn" onclick="nextPage()">التالي ⬅️</button>
+        </div>
+
+        <!-- شاشة النتيجة النهائية (مخفية بالبداية) -->
+        <div id="result-container" class="result-screen hidden">
+            <h2 style="font-size: 35px; color: #333; margin-top:0;">انتهى الاختبار!</h2>
+            <div class="result-score"><span id="score-text">0</span></div>
+            <div class="result-message" id="result-message">جاري حساب النتيجة...</div>
+            <button class="btn-main" onclick="location.reload()">إعادة الاختبار 🔄</button>
+        </div>
+
     </div>
 
     <script>
-        let boxStates = JSON.parse(localStorage.getItem('ciidGameState'));
-        
-        if (!boxStates || boxStates.length !== 13) {
-            boxStates = new Array(13).fill(0);
-        }
-
-        let hooyoOpened = localStorage.getItem('hooyoState') === 'true';
-        let resetCounter = 0; 
-
-        function resetGame() {
-            resetCounter++;
-            if (resetCounter >= 3) {
-                if (confirm("Ma hubtaa inaad dib u bilaabayso ciyaarta? (Tani waxay tirtiraysaa wixii horey loo furay)")) {
-                    localStorage.removeItem('ciidGameState');
-                    localStorage.removeItem('hooyoState');
-                    location.reload(); 
-                }
-                resetCounter = 0;
-            }
-        }
-
-        function saveGame() {
-            localStorage.setItem('ciidGameState', JSON.stringify(boxStates));
-            localStorage.setItem('hooyoState', hooyoOpened);
-        }
-
-        function renderHooyo() {
-            if (hooyoOpened) {
-                document.getElementById('hooyoContent').innerHTML = "✨ Ciid Mubaarak Hooyo Macaan! ✨<br><br>Adigu tartan kuma jirtid, xaqal ciidkaaguna waa diyaar. <br><br>Waan ku jecelahay Hooyo! ❤️";
-            }
-        }
-
-        function openHooyo() {
-            if (!hooyoOpened) {
-                document.getElementById('hooyoContent').innerHTML = "✨ Ciid Mubaarak Hooyo Macaan! ✨<br><br>Adigu tartan kuma jirtid, xaqal ciidkaaguna waa diyaar. <br><br>Waan ku jecelahay Hooyo! ❤️";
-                hooyoOpened = true;
-                saveGame(); 
-                
-                confetti({
-                    particleCount: 150,
-                    spread: 100,
-                    origin: { y: 0.6 },
-                    colors: ['#d4af37', '#2c5e3b', '#ffffff']
-                });
-            }
-        }
-
-        // Data for the 13 people/boxes oo si xirfadaysan la isugu dhex qasay
-        const prizesData = [
-            { type: 'normal', challenge: "Waji faraxsan samee, kadib taabo mar kale! 😊", prize: "Nasiib wacan! Waxaad heshay <strong>10,000 SL SH</strong>. Waa lacag yar balse barako badan, qabooji niyada walaal! ✨" },
-            
-            // Sanduuqa 2aad (Qosol) - KHALADKII YARAA HALKAN AYAA LAGA SAXAY KALIYA
-            { type: 'joke', challenge: "iska dhig qof  wayn oo maalqabeen ah kadib fur! 💪😎", prize: "waan ka xunay! Ciiddan waa tii carruurta, adigu waad weynaatay xaqal ciid ma lihid kkkk 😂 <br><div class='fursad-text'>Haniyad jabine, waxaad leedahay fursad kale ee dooro sanduuq kale! 🎁🏃‍♂️</div>" },
-            
-            { type: 'normal', challenge: "Qofka kugu xiga u sheeg hal shay oo aad ku jeceshahay, kadib fur! 🤝💕", prize: "Hambalyo! Waxaad heshay <strong>15,000 SL SH</strong>. Xoogaa waad dhaantaa qaar badan ee ku farax! 🌸" },
-            
-            { type: 'normal', challenge: "bakhaylnimada qofka kaa horeya ku wareeji, kadib fur! 🏃‍♂️💨", prize: "Waaaw! 🌟 Maanta adigaa ugu nasiib badan! Waxaad heshay <strong>40,000 SL SH!</strong> 💸 🎉 <br><br><em>Lakiin nasiib wanaagsanow... jaarkaaga ka warsug kkkk 😂</em>" },
-            
-            // Sanduuqa 5aad (Qosol / Bilaa lacag)
-            { type: 'joke', challenge: "dheh alxamdulillah inaad soo gaadhay ciidan kadib fur kkkk 👴👵", prize: "waan ka xunahay xaqalciidki sanduuqann wuu lumay kkkk 🤣 <br><div class='fursad-text'>Haniyad jabine, waxaad leedahay fursad kale ee dooro sanduuq kale ! 🎯</div>" },
-            
-            { type: 'normal', challenge: "Istaag oo dheh 'Anigaa qoyskan ugu qurxoon , hadii laga diidana waxbixi', kadib fur! 😂", prize: "Hambalyo! Asal ahaan waxaad heshay 10,000 SL SH... <br><strong>BALSE</strong> waxaad nasiib u yeelatay inaad 10,000 ka qaadato kii kaa horeeyay ee sanduuq (4)! Isku geyn waa <strong>20,000 SL SH!</strong> Kkkk 😈" },
-            
-            // Sanduuqa 7aad (Kan Khaaska ah ee Hadiyada Qariyan)
-            { type: 'special', challenge: "Wajigaaga ka dhig sidii qof liin dhanaan qaniinay 🍋, ilaa aan dhammaan wada qosolno,!, kadib fur! 🗣️", prize: "🎉 <strong>Aad baad u nasiib badantahay!</strong> Waxaad heshay bashqad qiimo badan! <br><br>Hadiyadaada lama sheegin, ee ila soo hadal sida ugu dhakhsaha badan si aad u hesho abaal marintaada qaaliga ah! 🎁🤫" },
-            
-            { type: 'normal', challenge: "qofka aad ugu jeceshahy wax ubalan qaad', kadib fur! 🙌", prize: "Nasiib wacan! Waxaad heshay <strong>10,000 SL SH</strong>. Qanaacadaa ugu wacan, ciid wanaagsan! 🎈" },
-            
-            { type: 'normal', challenge: "Qofka aad lacag ku leedahay xusuusi inuu iska bixiyo, kadib fur! 💸", prize: "Hambalyo! Waxaad heshay <strong>20,000 SL SH!</strong> Waa dhexdhexaad wacan, ciid mubaarak! 🎊" },
-            
-            // Sanduuqa 10aad (Qosol / Bilaa lacag)
-            { type: 'joke', challenge: "hooyo hal mar madaxa kasoo dhunko kadib fur 🗣️👴", prize: "masha allah hambalyo adigu xaqalciidkaagi ajar ahaan ayaad uqadatay oo hoyada ayaad so dhunkatay 💸🙅‍♂️ <br><div class='fursad-text'>Kaftan weeye! Haniyad jabine, sanduuq kale oo nasiibkaaga ah dooro! 🎲</div>" },
-            
-            { type: 'normal', challenge: "qof aad ku tuhunsantay inuu ramadanti kijada biyo ku cabay farta ku fiiq, kadib fur! 👉😂", prize: "Nasiib wacan! Waxaad heshay <strong>10,000 SL SH</strong>. Yaanay kugu yaraanin, niyadda wanaaji! 🌺" },
-            
-            { type: 'normal', challenge: "Isku day inaad suxulkaaga carrabka ku taabato!, kadib fur! 🎤", prize: "Hambalyo! Waxaad heshay <strong>15,000 SL SH</strong>. Ku ciid farxad iyo caafimaad! 🌙" },
-            
-            { type: 'normal', challenge: "Salaan diiran sii qofka kugu xiga ka hor intaanad furin! 🤗", prize: "Nasiib wacan! Waxaad heshay <strong>10,000 SL SH</strong>. Waa inoo ciida dambe iyo nasiib fiican! 😄" }
+        // مصفوفة الأسئلة (60 سؤالاً مراجعة بدقة عالية جداً)
+        // 0 = أ ، 1 = ب ، 2 = ج ، 3 = د
+        const questionsData = [
+            { q: "ما هو المعنى اللغوي للتخريج؟", options: ["الجمع والتأليف", "الإبراز والإظهار", "الاستنباط والفهم", "الحفظ والضبط"], layout: 4, ans: 1 },
+            { q: "ما هو التعريف الاصطلاحي المستقر للتخريج كما استقر عليه العمل عند المتأخرين؟", options: ["شرح معاني الحديث واستنباط الأحكام", "عزو الحديث إلى من يرويه بالإسناد", "الحكم على الحديث بالصحة أو الضعف", "جمع الأحاديث في موضوع واحد"], layout: 2, ans: 1 },
+            { q: "ما هو الفرق الدقيق بين (التخريج) و(علم التخريج)؟", options: ["التخريج هو التطبيق العملي للعزو، وعلم التخريج هو القواعد والأسس النظرية", "التخريج خاص بالمتن، وعلم التخريج خاص بالإسناد", "التخريج للمتقدمين، وعلم التخريج للمتأخرين", "لا فرق بينهما فهما مترادفان تماماً"], layout: 2, ans: 0 },
+            { q: "أي الأطوار التالية يمثل الطور الأول لنشأة التخريج حيث كان يُعنى به (التأليف) أو الانتخاب للرواة؟", options: ["طور الاستخراج", "طور البزوغ", "طور رواية الأحاديث بالإسناد", "طور العزو مع بيان الدرجة"], layout: 2, ans: 1 },
+            { q: "ماذا يُقصد بـ (الاستخراج) الذي ظهر في الطور الثاني من أطوار التخريج؟", options: ["استنباط الأحكام من المتن", "إخراج أحاديث الكتاب بأسانيد للمستخرج لا تمر بالمؤلف", "استخراج الأحاديث الضعيفة من الدواوين", "جمع أطراف الأحاديث في مصنف"], layout: 2, ans: 1 },
+            { q: "ما هو الطور الخامس الذي استقر عليه اصطلاح التخريج عند المتأخرين؟", options: ["العزو المباشر دون دراسة الأسانيد", "العزو مع بيان درجة الحديث", "الانتخاب للرواة وانتقاء المرويات", "التأليف في علم الرجال"], layout: 2, ans: 1 },
+            { q: "ما هو أول كتاب صُنف بشكل مستقل في (علم التخريج) وبيان أصوله التنظيرية؟", options: ["حصول التفريج بأصول التخريج للغماري", "أصول التخريج لمحمود الطحان", "نصب الراية للزيلعي", "البدر المنير لابن الملقن"], layout: 2, ans: 0 },
+            { q: "المصادر التي تروي الحديث بإسناد مؤلفيها تسمى:", options: ["مصادر فرعية", "مصادر مساعدة", "مصادر أصلية", "كتب الأطراف"], layout: 4, ans: 2 },
+            { q: "من أنواع المصادر الأصلية (السنن)، فبماذا تمتاز غالباً؟", options: ["تجمع أحاديث كل صحابي على حدة", "جمعت أحاديث الأحكام ورتبت على الأبواب", "تجمع الأحاديث في غالب موضوعات الدين", "تذكر أسماء شيوخ المصنف"], layout: 2, ans: 1 },
+            { q: "ما هو الفرق الجوهري بين (المسانيد) و (السنن) كمصادر أصلية؟", options: ["المسانيد ترتب حسب أسماء الصحابة، والسنن ترتب حسب الأبواب الفقهية", "المسانيد تحذف الأسانيد، والسنن تذكرها", "المسانيد خاصة بالضعفاء، والسنن للثقات", "المسانيد ترتب أبجدياً للمتون، والسنن بحسب الرواة"], layout: 2, ans: 0 },
+            { q: "المصادر التي لا تروي الحديث بإسناد مؤلفيها بل تنقله عن غيرها تسمى:", options: ["الجوامع", "المسانيد", "المصادر الفرعية", "الأجزاء الحديثية"], layout: 4, ans: 2 },
+            { q: "أي من العبارات التالية يُعد صحيحاً في العزو إلى المصادر الأصلية؟", options: ["ذكره أو أورده", "أخرجه أو رواه", "حكاه أو نقله", "عزاه"], layout: 4, ans: 1 },
+            { q: "كم عدد الطرق الرئيسة والأصلية للوصول إلى الحديث التي تدرس في هذا المقرر؟", options: ["طريقتان", "ثلاث طرق", "أربع طرق رئيسة (الإسناد، اللفظ، الموضوع، الصفة)", "خمس طرق"], layout: 2, ans: 2 },
+            { q: "للوصول إلى الحديث بواسطة (الراوي الأعلى) نستخدم بشكل رئيسي كتب:", options: ["المسانيد", "معاجم الشيوخ", "غريب الحديث", "الجوامع"], layout: 4, ans: 0 },
+            { q: "كيف رتب الإمام أحمد كتابه (المسند) بشكل عام؟", options: ["على الأبواب الفقهية (كالطهارة والصلاة)", "على حروف المعجم للصحابة", "بدأ بالخلفاء الراشدين ثم باقي العشرة فالمكثرين", "على أسماء شيوخه في الرواية"], layout: 2, ans: 2 },
+            { q: "كتاب (المعجم الكبير) للطبراني رُتب بناءً على:", options: ["أسماء شيوخ المؤلف", "مسانيد الصحابة", "أوائل الألفاظ", "الموضوعات الفقهية"], layout: 4, ans: 1 },
+            { q: "ما هي الكتب التي تعنى بذكر طرف الحديث الدال عليه مع جمع أسانيده؟", options: ["المسانيد", "المصنفات", "كتب الأطراف", "الجوامع"], layout: 4, ans: 2 },
+            { q: "من هو مؤلف كتاب (تحفة الأشراف بمعرفة الأطراف)؟", options: ["ابن حجر العسقلاني", "أبو الحجاج المزي", "ابن طاهر المقدسي", "جلال الدين السيوطي"], layout: 4, ans: 1 },
+            { q: "من هو (الراوي الأدنى) في الإسناد؟", options: ["الصحابي", "التابعي", "شيخ مصنف الكتاب", "الراوي المتفرد بالحديث"], layout: 4, ans: 2 },
+            { q: "إذا أردت الوصول للحديث عن طريق (الراوي الأدنى) نلجأ غالباً إلى كتب:", options: ["المسانيد", "الأطراف", "معاجم الشيوخ", "الجوامع"], layout: 4, ans: 2 },
+            { q: "إذا أردت تخريج حديث بالنظر إلى راوٍ في (أثناء الإسناد)، فأي الكتب تستخدم؟", options: ["كتب التراجم والأجزاء والفهارس", "المسانيد ومعاجم الصحابة", "كتب الأطراف كتحفة الأشراف", "كتب غريب الحديث"], layout: 2, ans: 0 },
+            { q: "كتاب (الكامل) لابن عدي يختص بتراجم أي صنف من الرواة؟", options: ["الصحابة", "الثقات والمتقنين", "الرواة المجروحين والضعفاء", "شيوخ المؤلف"], layout: 2, ans: 2 },
+            { q: "متى نلجأ لطريقة البحث بواسطة (اللفظة الأولى من المتن)؟", options: ["إذا عرفنا اسم الصحابي فقط", "إذا كان عندنا أي كلمة من وسط المتن", "إذا عرفنا أول كلمة من الحديث تحديداً", "إذا عرفنا موضوع الحديث وفقهه"], layout: 2, ans: 2 },
+            { q: "كتاب (الجامع الصغير من حديث البشير النذير) للسيوطي تم ترتيبه بناءً على:", options: ["الموضوعات الفقهية والأحكام", "أوائل الألفاظ على حروف المعجم", "مسانيد الصحابة", "تراجم الرواة"], layout: 2, ans: 1 },
+            { q: "أي من الكتب التالية ينتمي إلى صنف الكتب المعتنية بـ (الأحاديث المشتهرة على الألسنة)؟", options: ["المقاصد الحسنة للسخاوي", "الجامع الكبير للسيوطي", "مجمع الزوائد للهيثمي", "بلوغ المرام لابن حجر"], layout: 2, ans: 0 },
+            { q: "للبحث عن حديث بواسطة (لفظة غريبة في أثناء المتن) نستخدم:", options: ["كتب الأطراف", "كتب غريب الحديث", "كتب المسانيد", "كتب أحاديث الأحكام"], layout: 2, ans: 1 },
+            { q: "ما هي الطريقة المتبعة للبحث في (المعجم المفهرس لألفاظ الحديث النبوي)؟", options: ["البحث بالكلمة الأولى مباشرة", "البحث عن اسم الباب الفقهي", "إرجاع الكلمة إلى أصلها اللغوي (الجذر)", "البحث عن اسم الصحابي"], layout: 2, ans: 2 },
+            { q: "كم عدد الكتب التي تمت فهرستها في (المعجم المفهرس لألفاظ الحديث النبوي)؟", options: ["الكتب الستة فقط", "تسعة كتب", "جميع كتب السنة", "أربعة عشر كتاباً"], layout: 4, ans: 1 },
+            { q: "رمز (خ) في المعجم المفهرس وتحفة الأشراف يرمز للإمام:", options: ["النسائي", "البخاري", "مسلم", "أبي داود"], layout: 4, ans: 1 },
+            { q: "طريقة الوصول إلى الحديث بالنظر إلى (موضوعه) تتميز بأنها:", options: ["تتطلب معرفة اللفظ بدقة تامة", "لا تشترط حفظ اللفظ أو السند بل يكفي فهم معناه العام", "تعين الباحث إذا كان يحفظ إسناد الحديث فقط", "تجمع كل طرق الصحابي في مكان واحد"], layout: 2, ans: 1 },
+            { q: "من أمثلة المصادر الأصلية التي اعتنت بجمع أحاديث (موضوعات الدين كافة):", options: ["السنن كسنن أبي داود", "الجوامع كصحيح البخاري ومسلم", "كتب الأجزاء الحديثية", "المسانيد كمسند أحمد"], layout: 2, ans: 1 },
+            { q: "السنن (كسنن أبي داود والنسائي) تقتصر غالباً على أحاديث:", options: ["الزهد والرقائق", "التفسير", "الأحكام الفقهية", "العقائد"], layout: 4, ans: 2 },
+            { q: "كتاب (جامع الأصول) لابن الأثير رتبت فيه الكتب العلمية بناءً على:", options: ["الترتيب الفقهي المعتاد", "مسانيد الصحابة", "حروف المعجم لعناوين الكتب متجاهلاً (أل) التعريف", "وفيات المصنفين"], layout: 2, ans: 2 },
+            { q: "كتاب (مفتاح كنوز السنة) لفنسنك يُعد من أي أنواع الفهارس؟", options: ["الكشافات الموضوعية لمجموعة كتب", "فهارس الأطراف للمتون", "كتب المسانيد", "معاجم الشيوخ"], layout: 2, ans: 0 },
+            { q: "كتاب (الأزهار المتناثرة في الأخبار المتواترة) للسيوطي يعتني بأي نوع من الأحاديث؟", options: ["الأحاديث القدسية", "الأحاديث المسلسلة", "الأحاديث المتواترة", "الأحاديث الموضوعة"], layout: 2, ans: 2 },
+            { q: "كتاب (الإتحافات السنية بالأحاديث القدسية) للمناوي، ينتمي البحث فيه إلى أي طريقة؟", options: ["الوصول عن طريق الراوي الأعلى", "الوصول عن طريق الكلمة الأولى", "الوصول بالنظر إلى (صفة في المتن)", "الوصول عن طريق الموضوع"], layout: 2, ans: 2 },
+            { q: "أي من الكتب التالية يعتني بالأحاديث (الموضوعة والمكذوبة)؟", options: ["المقاصد الحسنة", "الإتحافات السنية", "الموضوعات لابن الجوزي", "علل الحديث"], layout: 4, ans: 2 },
+            { q: "للبحث عن الأحاديث المروية بصيغة (روى الراوي عن أبيه عن جده)، نلجأ إلى طريقة:", options: ["النظر في الموضوع", "النظر لصفة في الإسناد", "أوائل المتون", "كتب الأطراف"], layout: 2, ans: 1 },
+            { q: "ما أبرز ما يعاب على التقنيات والبرامج الحديثة في التخريج رغم فوائدها الجمة؟", options: ["بطء البحث", "صعوبة الاستخدام", "كثرة الأخطاء التصحيفية والسقط في الإدخال", "عدم احتوائها على الكتب الستة"], layout: 2, ans: 2 },
+            { q: "من أهم الفوائد العلمية التي يجنيها الباحث من (جمع طرق الحديث) قبل صياغة التخريج:", options: ["زيادة عدد صفحات البحث", "الوقوف على المتابعات والشواهد وكشف العلل الخفية", "الاستغناء عن الحكم على الحديث", "معرفة أسماء الشيوخ فقط"], layout: 2, ans: 1 },
+            { q: "ما المقصود بـ (المتابعة) في علم التخريج؟", options: ["موافقة الراوي لغيره في رواية الحديث عن نفس الصحابي", "موافقة الصحابي لصحابي آخر", "تفرد الراوي بالحديث", "الرواية بالمعنى"], layout: 2, ans: 0 },
+            { q: "تنقسم المتابعة إلى تامة وقاصرة، فما هي المتابعة (التامة)؟", options: ["أن تقع الموافقة للراوي في شيخه المباشر الذي روى عنه", "أن تقع الموافقة في شيخ شيخه فمن فوقه", "أن يوافق صحابي صحابياً آخر", "أن يُروى الحديث بلفظه تماماً"], layout: 2, ans: 0 },
+            { q: "في التخريج التطبيقي، المقصود بـ (شاهد الحديث) هو:", options: ["الحديث المروي عن نفس الصحابي", "الحديث المروي عن صحابي آخر بمعنى الحديث الأول", "الحديث المسلسل", "تفرد الثقة"], layout: 2, ans: 1 },
+            { q: "عند بيان فروق المتن، إذا كان نص المصدر مطابقاً للنص الذي عند المخرج، يقال:", options: ["بمعناه", "بنحوه", "مختصراً", "بلفظه أو بمثله"], layout: 4, ans: 3 },
+            { q: "إذا كان اختلاف اللفظ يسيراً بين المصدر والنص الذي عند المخرج (كالتقديم والتأخير)، نستعمل عبارة:", options: ["بلفظه", "بنحوه", "في أثناء حديث", "بمعناه"], layout: 4, ans: 1 },
+            { q: "إذا كان الحديث مروياً في المصدر بقصة طويلة، والنص الذي عند المخرج قطعة منه، يقال:", options: ["مفرقاً", "مطولاً", "في أثناء حديث (أو ضمن حديث)", "مختصراً"], layout: 2, ans: 2 },
+            { q: "التخريج الذي يقتصر على عزو الحديث للمصدر دون بيان الفروق والمتابعات يسمى:", options: ["تخريجاً مفصلاً", "تخريجاً موسعاً", "تخريجاً مختصراً", "تخريجاً موضوعياً"], layout: 2, ans: 2 },
+            { q: "أي من الكتب التالية يمثل (التخريج الموسع) الحافل بالفوائد والعلل والمتابعات؟", options: ["بلوغ المرام لابن حجر", "البدر المنير لابن الملقن", "عمدة الأحكام للمقدسي", "المنتقى للمجد ابن تيمية"], layout: 2, ans: 1 },
+            { q: "كتاب (التلخيص الحبير) للحافظ ابن حجر العسقلاني هو تلخيص لأي كتاب؟", options: ["نصب الراية للزيلعي", "البدر المنير لابن الملقن", "المغني عن حمل الأسفار", "تخريج أحاديث الكشاف"], layout: 2, ans: 1 },
+            { q: "كتاب (نصب الراية) للإمام الزيلعي، خَرَّج فيه أحاديث أي كتاب فقهي؟", options: ["الهداية للمرغيناني (فقه حنفي)", "الشرح الكبير للرافعي (فقه شافعي)", "المقنع لابن قدامة (فقه حنبلي)", "المدونة (فقه مالكي)"], layout: 2, ans: 0 },
+            { q: "ما المقصود بـ (المدار) في علم التخريج ورسم شجرة الإسناد؟", options: ["موضوع الحديث الفقهي", "الراوي الذي تلتقي عنده وتتفرع منه طرق الحديث", "الكتاب المصدر", "الصحابي المقل"], layout: 2, ans: 1 },
+            { q: "من التنبيهات المنهجية والمهمة عند (رسم شجرة الإسناد):", options: ["تكرار كتابة اسم (المدار) في كل طريق", "جعل (المدار) نقطة التقاء واحدة تتفرع منها الخطوط دون تكرار اسمه في نفس الطبقة", "رسم الشجرة أفقياً فقط", "البدء برسم الشيوخ المتأخرين والصعود للصحابي"], layout: 2, ans: 1 },
+            { q: "في أسانيد الحديث، كثيراً ما يرد حرف (ح)، فما معناه في اصطلاح المخرجين؟", options: ["الحكم على الحديث بالصحة", "تحويل الإسناد من طريق إلى آخر للإيجاز عند نقطة التقاء", "حذف جزء من الإسناد لوجود علة", "حكاية الحديث بالمعنى"], layout: 2, ans: 1 },
+            { q: "عند صياغة التخريج على (المتابعات المطلقة)، ما هي الخطوة الأولى علمياً؟", options: ["سرد جميع المصادر دفعة واحدة", "إثبات الحديث بإسناد تام من مصدر أساسي ثم البناء عليه في المتابعات", "البدء بالأسانيد الضعيفة", "ذكر أحكام العلماء أولاً"], layout: 2, ans: 1 },
+            { q: "عند صياغة التخريج وترتيب المصادر (بحسب الوفيات)، فإن الباحث يعتمد على:", options: ["تقديم المصدر ذي الإسناد الأقوى", "تقديم المصدر الذي توفي مؤلفه أولاً لإبراز التسلسل التاريخي", "ترتيب المصادر بحسب حروف المعجم", "تقديم الكتب الستة مطلقاً"], layout: 2, ans: 1 },
+            { q: "إذا اختار المخرج ترتيب المصادر (حسب القوة والصحة)، فبأي الكتب يبدأ؟", options: ["بالسنن الأربعة", "بالمصادر الأقدم وفاة", "بالكتب الستة مقدماً البخاري ثم مسلماً", "بالمسانيد"], layout: 2, ans: 2 },
+            { q: "في تخريج (المغني عن حمل الأسفار) للعراقي، ماذا يفعل غالباً إذا كان الحديث في الصحيحين؟", options: ["يكتفي بعزوه إليهما لجلالتهما", "يخرج الحديث مطولاً من السنن", "يحذف الحديث", "يرسم شجرة الإسناد"], layout: 2, ans: 0 },
+            { q: "كتاب (نتائج الأفكار) لابن حجر اختص بتخريج أحاديث أي كتاب؟", options: ["الكشاف للزمخشري", "الأذكار للنووي", "الهداية للمرغيناني", "الشرح الكبير للرافعي"], layout: 4, ans: 1 },
+            { q: "ماذا يفعل المخرج إذا وجد خطأ مطبعياً أو تصحيفاً في اسم الراوي في المصدر المطبوع؟", options: ["يعتمده كما هو دون تثبت", "يحذف المصدر من البحث نهائياً", "يتنبه ويصحح الخطأ بالرجوع لتراجم الرواة والمخطوطات", "يستبدله براوٍ آخر عشوائي"], layout: 2, ans: 2 },
+            { q: "ما هو البرنامج التقني الذي يتميز بخدمة (صياغة التخريج لكل حديث) و(تشجير الأسانيد) آلياً؟", options: ["المكتبة الشاملة", "الموسوعة الحديثية (الدرر السنية)", "جامع خادم الحرمين الشريفين للسنة النبوية", "جامع الكتب التسعة"], layout: 2, ans: 2 }
         ];
 
-        function createBoard() {
-            const board = document.getElementById('gameBoard');
-            for (let i = 0; i < 13; i++) {
-                let box = document.createElement('div');
-                box.id = 'box-' + i;
-                box.onclick = () => handleBoxClick(i);
+        // المتغيرات لضبط الاختبار
+        const questionsPerPage = 6;
+        const totalPages = Math.ceil(questionsData.length / questionsPerPage);
+        let currentPage = 0;
+        let finalScore = 0;
+        let answeredQuestionsOnPage = 0;
 
-                let state = boxStates[i];
-                if (state === 0) {
-                    box.className = 'box';
-                    box.innerHTML = `<strong>Sanduuqa ${i + 1}</strong>`;
-                } else if (state === 1) {
-                    box.className = 'box challenge-state';
-                    box.innerHTML = `${prizesData[i].challenge} <br><div class="small-text">(Taabo mar kale)</div>`;
-                } else if (state === 2) {
-                    box.className = 'box opened';
-                    box.innerHTML = prizesData[i].prize;
+        let questionStatus = new Array(questionsData.length).fill(false);
+
+        // كشف واجهة الدفع (المفاجأة)
+        function revealPayment() {
+            document.getElementById('payment-intro').classList.add('hidden');
+            document.getElementById('payment-secret').classList.remove('hidden');
+        }
+
+        // دالة بدء الاختبار بعد الشاشة التحفيزية
+        function startExam() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('header').classList.remove('hidden');
+            document.getElementById('questions-container').classList.remove('hidden');
+            document.getElementById('bottom-bar').classList.remove('hidden');
+            
+            renderPage();
+            updateProgressBar();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // تحديث شريط التقدم (تبدأ بنسبة تعبر عن الصفحة الأولى)
+        function updateProgressBar() {
+            const progress = ((currentPage + 1) / totalPages) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+        }
+
+        // دالة عرض أسئلة الصفحة الحالية
+        function renderPage() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+            answeredQuestionsOnPage = 0;
+
+            const startIndex = currentPage * questionsPerPage;
+            const Math_min = Math.min(startIndex + questionsPerPage, questionsData.length);
+            
+            for (let i = startIndex; i < Math_min; i++) {
+                const item = questionsData[i];
+                let html = `
+                <table class="question-table" id="table-q${i}">
+                    <tr>
+                        <th colspan="${item.layout}">${i + 1}- ${item.q}</th>
+                    </tr>
+                `;
+                
+                // بناء صفوف الخيارات
+                if (item.layout === 4) {
+                    html += `
+                    <tr>
+                        <td class="option-cell" id="q${i}-opt0" onclick="checkAnswer(${i}, 0, this)">أ) ${item.options[0]}</td>
+                        <td class="option-cell" id="q${i}-opt1" onclick="checkAnswer(${i}, 1, this)">ب) ${item.options[1]}</td>
+                        <td class="option-cell" id="q${i}-opt2" onclick="checkAnswer(${i}, 2, this)">ج) ${item.options[2]}</td>
+                        <td class="option-cell" id="q${i}-opt3" onclick="checkAnswer(${i}, 3, this)">د) ${item.options[3]}</td>
+                    </tr>`;
+                } else {
+                    html += `
+                    <tr>
+                        <td class="option-cell col-2" id="q${i}-opt0" onclick="checkAnswer(${i}, 0, this)">أ) ${item.options[0]}</td>
+                        <td class="option-cell col-2" id="q${i}-opt1" onclick="checkAnswer(${i}, 1, this)">ب) ${item.options[1]}</td>
+                    </tr>
+                    <tr>
+                        <td class="option-cell col-2" id="q${i}-opt2" onclick="checkAnswer(${i}, 2, this)">ج) ${item.options[2]}</td>
+                        <td class="option-cell col-2" id="q${i}-opt3" onclick="checkAnswer(${i}, 3, this)">د) ${item.options[3]}</td>
+                    </tr>`;
                 }
                 
-                board.appendChild(box);
+                html += `</table>`;
+                container.innerHTML += html;
             }
-            renderHooyo(); 
+
+            // تحديث المؤشر والزر
+            document.getElementById('page-indicator').innerText = `الصفحة ${currentPage + 1} من ${totalPages}`;
+            const nextBtn = document.getElementById('next-btn');
+            
+            if (currentPage === totalPages - 1) {
+                nextBtn.innerText = "إنهاء الاختبار وعرض النتيجة 🏆";
+                nextBtn.style.backgroundColor = "#d39e00"; // لون ذهبي للإنهاء
+            } else {
+                nextBtn.innerText = "التالي ⬅️";
+                nextBtn.style.backgroundColor = "#1e6b47";
+            }
+            updateProgressBar();
         }
 
-        function handleBoxClick(index) {
-            let state = boxStates[index];
-            let boxElem = document.getElementById('box-' + index);
+        // دالة التحقق من الإجابة عند الضغط عليها
+        function checkAnswer(questionIndex, selectedOptionIndex, cellElement) {
+            if (questionStatus[questionIndex]) return;
 
-            if (state === 0) {
-                boxElem.innerHTML = `${prizesData[index].challenge} <br><div class="small-text">(Taabo mar kale)</div>`;
-                boxElem.className = 'box challenge-state';
-                boxStates[index] = 1;
-                saveGame(); 
-            } else if (state === 1) {
-                boxElem.innerHTML = prizesData[index].prize;
-                boxElem.className = 'box opened';
-                boxStates[index] = 2;
-                saveGame(); 
+            const correctAnswerIndex = questionsData[questionIndex].ans;
+            
+            const allCells = document.querySelectorAll(`#table-q${questionIndex} .option-cell`);
+            allCells.forEach(cell => cell.classList.add('disabled'));
+            
+            if (selectedOptionIndex === correctAnswerIndex) {
+                cellElement.classList.add('correct-ans');
+                finalScore++;
+            } else {
+                cellElement.classList.add('wrong-ans');
+                document.getElementById(`q${questionIndex}-opt${correctAnswerIndex}`).classList.add('correct-ans');
+            }
 
-                // Rashka oo lagu saleynayo nooca sanduuqa (type) intii index lagu saleyn lahaa
-                if (prizesData[index].type === 'special') {
-                    confetti({
-                        particleCount: 200,
-                        spread: 120,
-                        origin: { y: 0.5 },
-                        colors: ['#ff00ff', '#00ffff', '#ff0000', '#ffff00'] 
-                    });
-                } else if (prizesData[index].type === 'normal') {
-                    confetti({
-                        particleCount: 100,
-                        spread: 80,
-                        origin: { y: 0.6 },
-                        colors: ['#d4af37', '#2c5e3b', '#ffffff'] 
-                    });
-                }
-                // Haddii uu yahay 'joke' wax rash ah loo ridi maayo
+            questionStatus[questionIndex] = true;
+            answeredQuestionsOnPage++;
+        }
+
+        // الانتقال للصفحة التالية أو عرض النتيجة
+        function nextPage() {
+            const startIndex = currentPage * questionsPerPage;
+            const endIndex = Math.min(startIndex + questionsPerPage, questionsData.length);
+            const totalQuestionsOnCurrentPage = endIndex - startIndex;
+
+            if (answeredQuestionsOnPage < totalQuestionsOnCurrentPage) {
+                alert("لطفاً، أجب على جميع الأسئلة في هذه الصفحة لتتمكن من الانتقال للصفحة التالية.");
+                return;
+            }
+
+            if (currentPage >= totalPages - 1) {
+                showResults();
+            } else {
+                currentPage++;
+                renderPage();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
 
-        createBoard();
+        // إظهار النتيجة النهائية
+        function showResults() {
+            document.getElementById('header').classList.add('hidden');
+            document.getElementById('questions-container').classList.add('hidden');
+            document.getElementById('bottom-bar').classList.add('hidden');
+            
+            const resultContainer = document.getElementById('result-container');
+            resultContainer.classList.remove('hidden');
+
+            document.getElementById('score-text').innerText = finalScore;
+            
+            const msgElement = document.getElementById('result-message');
+            if (finalScore >= 55) {
+                msgElement.innerHTML = "ممتاز! لقد حصلت على درجة عبقرية، ما شاء الله 🌟<br>يبدو أنك متمكن تماماً من المقرر.";
+                msgElement.style.color = "#1e6b47";
+            } else if (finalScore >= 45) {
+                msgElement.innerHTML = "جيد جداً! نتيجة مبشرة، أحسنت الصنيع 👍<br>فهمك للمقرر رائع.";
+            } else if (finalScore >= 30) {
+                msgElement.innerHTML = "جيد، اجتزت الاختبار.. لكن احرص على مراجعة الكتاب أكثر 📚";
+            } else {
+                msgElement.innerHTML = "تحتاج إلى مراجعة وتدقيق أكثر.. لا تستسلم وحاول مجدداً 💡";
+                msgElement.style.color = "#dc3545";
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
     </script>
 </body>
 </html>
