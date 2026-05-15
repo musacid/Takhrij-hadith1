@@ -45,6 +45,33 @@
             margin-top: 0;
         }
 
+        /* صندوق التنبيه للعرض المكتبي */
+        .info-box {
+            background-color: #d1ecf1;
+            border: 2px solid #bee5eb;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px auto 30px auto;
+            max-width: 700px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .info-box h2 {
+            color: #0c5460;
+            font-size: 26px;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .info-box p {
+            color: #0c5460;
+            font-size: 21px;
+            line-height: 1.6;
+            margin-bottom: 0;
+        }
+
+        /* صندوق التنبيه (ليس مجاني) */
         .alert-box {
             background-color: #fff3cd;
             border: 2px solid #ffeeba;
@@ -57,7 +84,7 @@
 
         .alert-box h2 {
             color: #856404;
-            font-size: 28px;
+            font-size: 26px;
             margin-top: 0;
         }
 
@@ -146,7 +173,7 @@
             to { opacity: 1; transform: scale(1); }
         }
 
-        /* الترويسة */
+        /* الترويسة لصفحات الاختبار */
         .header-section {
             border: 2px solid #1e6b47;
             padding: 20px;
@@ -360,12 +387,21 @@
         
         <!-- شاشة المفاجأة والترحيب -->
         <div id="start-screen" class="start-screen">
-            <h1 style="color: #333;">استعن بالله ولا تعجز 🌟</h1>
+            <h1 style="color: #333;">مرحباً بك يا طالب العلم 🌟</h1>
             
-            <div class="alert-box">
-                <h2>تنبيه هام جداً 🚨</h2>
+            <!-- صندوق التنبيه للعرض المكتبي -->
+            <div class="info-box">
+                <h2>💡 تنبيه للحصول على أفضل تجربة</h2>
                 <p>
-                    مرحبا بك يا طالب العلم.. هذا الاختبار الشامل لمقرر التخريج <b>ليس مجانياً!</b><br>
+                    هذا الاختبار التفاعلي متوافق مع جميع الأجهزة، ولكن إذا أردت أن يظهر لك الاختبار على شكل <b>(ورقة A4)</b> الكلاسيكية والمنسقة، فننصحك بفتحه من جهاز كمبيوتر (لاب توب)، أو تفعيل ميزة <b>"الموقع الإلكتروني المخصص للكمبيوتر" (Desktop site)</b> من إعدادات متصفح جوالك.
+                </p>
+            </div>
+
+            <!-- التنبيه الخاص بأن الاختبار ليس مجانياً -->
+            <div class="alert-box">
+                <h2>تنبيه هام 🚨</h2>
+                <p>
+                    هذا الاختبار الشامل لمقرر التخريج <b>ليس مجانياً!</b><br>
                     بل يتطلب منك دفع <b>"رسوم الدخول"</b> قبل أن يُسمح لك بالبدء.
                 </p>
             </div>
@@ -375,12 +411,12 @@
                 <!-- الواجهة التمهيدية للرسوم -->
                 <div id="payment-intro">
                     <p style="font-size: 22px; color: #444; font-weight: bold; line-height: 1.6; margin-top: 0;">
-                        طريقة الدفع ليست معقدة، ولا تتطلب منك بطاقة بنكية، ولا تحويلا، ولا إيداعا، ولا كفيلا، ولا ضمانا! بل هي طريقة سهلة وميسرة جداً.
+                        وطريقة الدفع ليست معقدة، ولا تتطلب منك بطاقة بنكية، ولا تحويلاً، ولا إيداعاً، ولا كفيلاً، ولا ضماناً! بل هي طريقة سهلة وميسرة جداً.
                     </p>
                     <button class="reveal-btn" onclick="revealPayment()">إذا كنت جاهزاً للدفع، افتح هنا 🔓</button>
                 </div>
 
-                <!-- شاشة الدفع الحقيقية (المفاجأة) - مخفية في البداية -->
+                <!-- شاشة الدفع الحقيقية (المفاجأة) -->
                 <div id="payment-secret" class="hidden fade-in-fast">
                     <h3 style="color: #444; font-size: 24px; margin-top: 0;">رسوم الدخول بسيطة، ولكن أجرها عظيم:</h3>
                     <div class="payment-text">
@@ -429,7 +465,7 @@
     </div>
 
     <script>
-        // مصفوفة الأسئلة (60 سؤالاً مراجعة بدقة عالية جداً)
+        // مصفوفة الأسئلة الدقيقة
         // 0 = أ ، 1 = ب ، 2 = ج ، 3 = د
         const questionsData = [
             { q: "ما هو المعنى اللغوي للتخريج؟", options: ["الجمع والتأليف", "الإبراز والإظهار", "الاستنباط والفهم", "الحفظ والضبط"], layout: 4, ans: 1 },
@@ -494,7 +530,7 @@
             { q: "ما هو البرنامج التقني الذي يتميز بخدمة (صياغة التخريج لكل حديث) و(تشجير الأسانيد) آلياً؟", options: ["المكتبة الشاملة", "الموسوعة الحديثية (الدرر السنية)", "جامع خادم الحرمين الشريفين للسنة النبوية", "جامع الكتب التسعة"], layout: 2, ans: 2 }
         ];
 
-        // المتغيرات لضبط الاختبار
+        // إعدادات المتغيرات
         const questionsPerPage = 6;
         const totalPages = Math.ceil(questionsData.length / questionsPerPage);
         let currentPage = 0;
@@ -503,13 +539,13 @@
 
         let questionStatus = new Array(questionsData.length).fill(false);
 
-        // كشف واجهة الدفع (المفاجأة)
+        // كشف المفاجأة
         function revealPayment() {
             document.getElementById('payment-intro').classList.add('hidden');
             document.getElementById('payment-secret').classList.remove('hidden');
         }
 
-        // دالة بدء الاختبار بعد الشاشة التحفيزية
+        // بدء الاختبار
         function startExam() {
             document.getElementById('start-screen').classList.add('hidden');
             document.getElementById('header').classList.remove('hidden');
@@ -521,22 +557,22 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // تحديث شريط التقدم (تبدأ بنسبة تعبر عن الصفحة الأولى)
+        // تحديث شريط التقدم
         function updateProgressBar() {
             const progress = ((currentPage + 1) / totalPages) * 100;
             document.getElementById('progress-bar').style.width = `${progress}%`;
         }
 
-        // دالة عرض أسئلة الصفحة الحالية
+        // بناء صفحة الأسئلة
         function renderPage() {
             const container = document.getElementById('questions-container');
             container.innerHTML = '';
             answeredQuestionsOnPage = 0;
 
             const startIndex = currentPage * questionsPerPage;
-            const Math_min = Math.min(startIndex + questionsPerPage, questionsData.length);
+            const endIndex = Math.min(startIndex + questionsPerPage, questionsData.length);
             
-            for (let i = startIndex; i < Math_min; i++) {
+            for (let i = startIndex; i < endIndex; i++) {
                 const item = questionsData[i];
                 let html = `
                 <table class="question-table" id="table-q${i}">
@@ -570,13 +606,12 @@
                 container.innerHTML += html;
             }
 
-            // تحديث المؤشر والزر
             document.getElementById('page-indicator').innerText = `الصفحة ${currentPage + 1} من ${totalPages}`;
             const nextBtn = document.getElementById('next-btn');
             
             if (currentPage === totalPages - 1) {
                 nextBtn.innerText = "إنهاء الاختبار وعرض النتيجة 🏆";
-                nextBtn.style.backgroundColor = "#d39e00"; // لون ذهبي للإنهاء
+                nextBtn.style.backgroundColor = "#d39e00";
             } else {
                 nextBtn.innerText = "التالي ⬅️";
                 nextBtn.style.backgroundColor = "#1e6b47";
@@ -584,7 +619,7 @@
             updateProgressBar();
         }
 
-        // دالة التحقق من الإجابة عند الضغط عليها
+        // دالة التحقق
         function checkAnswer(questionIndex, selectedOptionIndex, cellElement) {
             if (questionStatus[questionIndex]) return;
 
@@ -605,7 +640,7 @@
             answeredQuestionsOnPage++;
         }
 
-        // الانتقال للصفحة التالية أو عرض النتيجة
+        // الصفحة التالية
         function nextPage() {
             const startIndex = currentPage * questionsPerPage;
             const endIndex = Math.min(startIndex + questionsPerPage, questionsData.length);
@@ -625,7 +660,7 @@
             }
         }
 
-        // إظهار النتيجة النهائية
+        // النتيجة
         function showResults() {
             document.getElementById('header').classList.add('hidden');
             document.getElementById('questions-container').classList.add('hidden');
